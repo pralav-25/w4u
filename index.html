@@ -1,0 +1,2250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Websites4U builds fast, modern websites, ecommerce stores, and lead systems for growing businesses.">
+  <title>Websites4U - Build the web presence your business needs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,400..500,0..100&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,400..500,0..100&family=Google+Sans+Code:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    :root {
+      --grey-0: #ffffff;
+      --grey-10: #f8f9fc;
+      --grey-20: #eff2f7;
+      --grey-50: #e6eaf0;
+      --grey-100: #dfe5ec;
+      --grey-300: #aeb8c5;
+      --grey-800: #45474d;
+      --grey-900: #2f3034;
+      --grey-1000: #212226;
+      --grey-1200: #121317;
+      --blue: #3279f9;
+      --green: #22a06b;
+      --yellow: #f5b544;
+      --red: #ef665b;
+      --surface: var(--grey-0);
+      --surface-soft: var(--grey-10);
+      --surface-mid: var(--grey-20);
+      --text: var(--grey-1200);
+      --muted: var(--grey-800);
+      --line: rgba(33, 34, 38, .08);
+      --inverse-line: rgba(230, 234, 240, .12);
+      --page-margin: 72px;
+      --max: 1728px;
+      --nav-height: 64px;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 36px;
+      --space-2xl: 48px;
+      --space-4xl: 80px;
+      --space-6xl: 120px;
+      --ease-out: cubic-bezier(.19, 1, .22, 1);
+      --ease-back: cubic-bezier(.34, 1.45, .64, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html {
+      scroll-behavior: smooth;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+    }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--surface);
+      font-family: "Google Sans Flex", "Google Sans", Arial, sans-serif;
+      font-optical-sizing: auto;
+      font-variation-settings: "wdth" 100, "opsz" 18;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: 100%;
+      max-width: calc(var(--max) + var(--page-margin) * 2);
+      margin: 0 auto;
+      padding: 0 var(--page-margin);
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .82);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: conic-gradient(from 210deg, var(--blue), #7c5cff, var(--green), var(--yellow), var(--red), var(--blue));
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+    }
+
+    .pill-nav-container {
+      justify-self: center;
+      position: relative;
+    }
+
+    .pill-nav-items {
+      overflow: hidden;
+    }
+
+    .pill-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-radius: 999px;
+      background: #f1f3f8;
+      box-shadow: inset 0 0 0 1px rgba(33, 34, 38, .04);
+    }
+
+    .pill {
+      --pill-bg: #120f17;
+      --pill-text: #45474d;
+      --hover-text: #120f17;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 108px;
+      min-height: 60px;
+      padding: 0 26px;
+      border-radius: 999px;
+      overflow: hidden;
+      color: var(--pill-text);
+      font-size: 17.5px;
+      line-height: 1;
+      font-weight: 450;
+      letter-spacing: -.01em;
+      isolation: isolate;
+      transform: translateZ(0);
+    }
+
+    .pill.is-active {
+      color: var(--grey-1200);
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 10px 30px rgba(18, 19, 23, .06);
+    }
+
+    .hover-circle {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      z-index: -1;
+      border-radius: 50%;
+      background: white;
+      transform: translateX(-50%) scale(0);
+      pointer-events: none;
+    }
+
+    .label-stack {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      min-height: 1.1em;
+    }
+
+    .pill-label,
+    .pill-label-hover {
+      grid-area: 1 / 1;
+      white-space: nowrap;
+      will-change: transform, opacity;
+    }
+
+    .pill-label-hover {
+      color: var(--hover-text);
+      opacity: 0;
+      transform: translateY(44px);
+    }
+
+    .pill-logo {
+      transition: transform .25s var(--ease-out);
+    }
+
+    .pill-logo:hover {
+      transform: scale(1.03);
+    }
+
+    .pill.is-hovered .hover-circle {
+      transform: translateX(-50%) scale(1.2);
+      transition: transform .3s var(--ease-out);
+    }
+
+    .pill.is-hovered .pill-label {
+      transform: translateY(-48px);
+      transition: transform .3s var(--ease-out);
+    }
+
+    .pill.is-hovered .pill-label-hover {
+      opacity: 1;
+      transform: translateY(0);
+      transition: transform .3s var(--ease-out), opacity .3s ease;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(170, 177, 204, .10);
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1;
+      font-weight: 450;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .nav-links a:hover { background: rgba(170, 177, 204, .18); color: var(--text); }
+    .nav-actions { display: flex; justify-content: flex-end; gap: 10px; }
+
+    .button {
+      position: relative;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 18px;
+      font-size: 14.5px;
+      font-weight: 450;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform .25s var(--ease-out), background .2s ease, color .2s ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { color: white; background: var(--grey-1200); }
+    .button-primary:hover { background: var(--grey-900); }
+    .button-tonal { background: rgba(170, 177, 204, .12); color: var(--text); }
+    .button-tonal:hover { background: rgba(170, 177, 204, .22); }
+    .button-blue { background: var(--blue); color: white; }
+
+    .mobile-menu-button {
+      display: none;
+      justify-self: flex-end;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      background: #f1f3f8;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .hamburger-line {
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--grey-1200);
+      transform-origin: center;
+    }
+
+    .mobile-menu-popover { display: none; }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1001;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #4285f4, #81c995, #fdd663);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform .12s linear;
+      pointer-events: none;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: calc(var(--nav-height) + 80px) 0 80px;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(248,249,252,.96), rgba(255,255,255,.8) 44%, rgba(239,242,247,.72)),
+        radial-gradient(1200px 520px at 50% 18%, rgba(50,121,249,.16), transparent 60%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(420px, .8fr);
+      gap: 72px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .72);
+      color: var(--muted);
+      font-size: 14.5px;
+      font-weight: 450;
+      backdrop-filter: blur(12px);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 8px rgba(50, 121, 249, .1);
+    }
+
+    h1 {
+      margin: 28px 0 0;
+      max-width: 920px;
+      font-size: clamp(52px, 7vw, 118px);
+      line-height: .94;
+      letter-spacing: -.035em;
+      font-weight: 450;
+      font-variation-settings: "wdth" 100, "opsz" 144;
+    }
+
+    .hero-copy {
+      margin: 28px 0 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.45;
+      letter-spacing: -.004em;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .arrow-link:after {
+      content: "->";
+      display: inline-block;
+      margin-left: 8px;
+      transition: transform .25s ease;
+    }
+    .arrow-link:hover:after { transform: translateX(5px); }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 56px;
+      max-width: 760px;
+    }
+
+    .metric {
+      min-height: 132px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, .66);
+      backdrop-filter: blur(16px);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 42px;
+      line-height: .95;
+      letter-spacing: -.03em;
+      font-weight: 450;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .device {
+      position: relative;
+      min-height: 620px;
+      border-radius: var(--radius-xl);
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(239,242,247,.78));
+      border: 1px solid rgba(255, 255, 255, .72);
+      box-shadow: 0 50px 140px rgba(18, 19, 23, .18);
+      transform-style: preserve-3d;
+      animation: float-panel 8s ease-in-out infinite;
+    }
+
+    .device:before,
+    .device:after {
+      content: "";
+      position: absolute;
+      inset: -62px;
+      z-index: -2;
+      border-radius: calc(var(--radius-xl) + 56px);
+      pointer-events: none;
+    }
+
+    .device:before {
+      background:
+        radial-gradient(circle at 18% 26%, rgba(66, 133, 244, .34), transparent 30%),
+        radial-gradient(circle at 82% 20%, rgba(234, 67, 53, .22), transparent 28%),
+        radial-gradient(circle at 84% 84%, rgba(251, 188, 5, .24), transparent 30%),
+        radial-gradient(circle at 18% 84%, rgba(52, 168, 83, .24), transparent 31%);
+      filter: blur(38px);
+      opacity: .66;
+      animation: google-aura-drift 11s ease-in-out infinite;
+    }
+
+    .device:after {
+      inset: -24px;
+      z-index: -1;
+      background: linear-gradient(135deg, rgba(66, 133, 244, .16), rgba(234, 67, 53, .08), rgba(251, 188, 5, .1), rgba(52, 168, 83, .14));
+      filter: blur(22px);
+      opacity: .42;
+      animation: google-aura-breathe 7s ease-in-out infinite;
+    }
+
+    .device-top {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dots { display: flex; gap: 8px; }
+    .dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .dots span:nth-child(1) { background: var(--red); }
+    .dots span:nth-child(2) { background: var(--yellow); }
+    .dots span:nth-child(3) { background: var(--green); }
+
+    .code-label {
+      font-family: "Google Sans Code", monospace;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .device-body {
+      display: grid;
+      grid-template-columns: 1fr 1.16fr;
+      gap: 12px;
+      height: calc(100% - 50px);
+      padding: 12px;
+    }
+
+    .agent-list, .preview-pane, .code-pane {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, .72);
+      overflow: hidden;
+    }
+
+    .agent-list { padding: 10px; }
+    .agent-card {
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      border: 1px solid transparent;
+      margin-bottom: 10px;
+      animation: lift-in .7s var(--ease-out) both;
+    }
+    .agent-card:nth-child(2) { animation-delay: .1s; }
+    .agent-card:nth-child(3) { animation-delay: .2s; }
+    .agent-card:nth-child(4) { animation-delay: .3s; }
+
+    .agent-card.active {
+      background: var(--grey-1200);
+      color: white;
+      border-color: rgba(230, 234, 240, .18);
+    }
+
+    .agent-card small {
+      display: block;
+      color: currentColor;
+      opacity: .58;
+      margin-bottom: 8px;
+      font-family: "Google Sans Code", monospace;
+      font-size: 12px;
+    }
+
+    .agent-card b { font-weight: 450; }
+
+    .visual-stack {
+      display: grid;
+      grid-template-rows: .86fr .64fr;
+      gap: 12px;
+    }
+
+    .preview-pane {
+      position: relative;
+      min-height: 286px;
+      background:
+        linear-gradient(180deg, rgba(18,19,23,.08), rgba(18,19,23,.38)),
+        url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80") center/cover;
+    }
+
+    .preview-card {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(18px);
+      padding: 18px;
+    }
+
+    .preview-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .preview-card h2 {
+      margin: 8px 0 0;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: -.03em;
+      font-weight: 450;
+    }
+
+    .code-pane {
+      padding: 18px;
+      background: var(--grey-1200);
+      color: var(--grey-50);
+      font-family: "Google Sans Code", monospace;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .code-pane span { color: #8ab4ff; }
+    .code-pane em { color: #81c995; font-style: normal; }
+
+    .section {
+      padding: var(--space-6xl) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section.inverse {
+      color: white;
+      background: var(--grey-1200);
+      border-top: 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+
+    .kicker {
+      color: var(--blue);
+      font-family: "Google Sans Code", monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .inverse .kicker { color: #8ab4ff; }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(38px, 5vw, 82px);
+      line-height: .98;
+      letter-spacing: -.03em;
+      font-weight: 450;
+      font-variation-settings: "wdth" 100, "opsz" 82;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+    .inverse .section-head p { color: var(--grey-300); }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding: 4px;
+      width: fit-content;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+    }
+
+    .filter-tab {
+      min-height: 42px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 18px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-weight: 450;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .filter-tab.active { color: white; background: var(--grey-1200); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .service-card, .work-card, .price-panel, .faq-item, .process-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface-soft);
+      transition: transform .35s var(--ease-out), background .25s ease, border-color .25s ease, box-shadow .35s var(--ease-out);
+    }
+
+    .service-card {
+      min-height: 300px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .service-card:hover, .work-card:hover, .process-card:hover {
+      transform: translateY(-6px);
+      background: white;
+      border-color: rgba(33, 34, 38, .16);
+      box-shadow: 0 32px 80px rgba(18, 19, 23, .08);
+    }
+
+    .icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--blue);
+    }
+
+    .service-card h3, .work-card h3, .process-card h3 {
+      margin: 26px 0 0;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      font-weight: 450;
+    }
+
+    .service-card p, .work-card p, .process-card p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+    }
+
+    .work-card {
+      overflow: hidden;
+      background: rgba(255,255,255,.06);
+      border-color: var(--inverse-line);
+    }
+
+    .work-card:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(230,234,240,.22);
+      box-shadow: none;
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      filter: saturate(.95);
+    }
+
+    .work-card.compact img { height: 220px; }
+    .work-card div { padding: 28px; }
+    .work-card p { color: var(--grey-300); }
+
+    .pricing-layout {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 16px;
+    }
+
+    .price-display {
+      border-radius: var(--radius-xl);
+      background: var(--grey-1200);
+      color: white;
+      min-height: 440px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .price-display p {
+      color: var(--grey-300);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .price-display strong {
+      display: block;
+      margin-top: 18px;
+      font-size: clamp(48px, 5vw, 78px);
+      line-height: .95;
+      letter-spacing: -.035em;
+      font-weight: 450;
+    }
+
+    .price-panel { padding: 28px; }
+
+    .estimate-range {
+      margin-top: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .estimate-range span {
+      color: var(--grey-300);
+      font-size: 14px;
+    }
+
+    .estimate-meter {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(230, 234, 240, .13);
+    }
+
+    .estimate-meter-fill {
+      display: block;
+      width: 42%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4285f4, #81c995, #fdd663);
+      transition: width .5s var(--ease-out);
+    }
+
+    .estimate-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .estimate-meta div {
+      padding: 14px;
+      border: 1px solid var(--inverse-line);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.06);
+    }
+
+    .estimate-meta small {
+      display: block;
+      color: var(--grey-300);
+      margin-bottom: 6px;
+      font-family: "Google Sans Code", monospace;
+      font-size: 12px;
+    }
+
+    .estimate-meta b {
+      font-weight: 450;
+      font-size: 18px;
+    }
+
+    .breakdown {
+      margin-top: 24px;
+      border-top: 1px solid var(--inverse-line);
+      padding-top: 18px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 8px 0;
+      color: var(--grey-300);
+      font-size: 14px;
+    }
+
+    .breakdown-row strong {
+      color: white;
+      font-size: 14px;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .preset-card {
+      position: relative;
+      min-height: 128px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: white;
+      padding: 18px;
+      text-align: left;
+      cursor: pointer;
+      color: var(--muted);
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s var(--ease-out), background .25s ease;
+    }
+
+    .preset-card:hover,
+    .preset-card.active {
+      border-color: rgba(50, 121, 249, .36);
+      background: #fbfcff;
+      box-shadow: 0 20px 50px rgba(18, 19, 23, .07);
+      transform: translateY(-2px);
+    }
+
+    .preset-card b {
+      display: block;
+      color: var(--text);
+      font-weight: 450;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .preset-card span {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .preset-card small {
+      display: block;
+      margin-top: 12px;
+      font-family: "Google Sans Code", monospace;
+      color: var(--blue);
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    label.control {
+      display: block;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .control strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-weight: 450;
+    }
+
+    select, input[type="range"], input[type="text"], input[type="tel"], textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+      padding: 13px 14px;
+      color: var(--text);
+      outline: none;
+    }
+
+    input[type="range"] { padding: 0; accent-color: var(--blue); }
+    input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue); }
+    textarea { resize: vertical; min-height: 132px; }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .feature-list label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: white;
+      cursor: pointer;
+    }
+
+    .feature-list span { color: var(--muted); font-size: 14px; line-height: 1.4; }
+    .feature-list b { display: block; color: var(--text); font-weight: 450; }
+
+    .addon-groups {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mini-note {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .process-card { min-height: 248px; padding: 28px; background: white; }
+    .process-card .num {
+      font-family: "Google Sans Code", monospace;
+      color: var(--blue);
+      font-size: 14px;
+    }
+
+    .faq-wrap {
+      max-width: 980px;
+      margin-left: auto;
+    }
+
+    .faq-item {
+      margin-bottom: 10px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .faq-toggle {
+      width: 100%;
+      min-height: 78px;
+      padding: 0 26px;
+      border: 0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      text-align: left;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: 450;
+    }
+
+    .faq-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .38s var(--ease-out);
+    }
+
+    .faq-panel p {
+      margin: 0;
+      padding: 0 26px 26px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .contact-card {
+      padding: 28px;
+      border: 1px solid var(--inverse-line);
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.06);
+    }
+
+    .contact-card label {
+      display: block;
+      color: var(--grey-300);
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .contact-card input, .contact-card select, .contact-card textarea {
+      margin-top: 8px;
+      background: rgba(255,255,255,.08);
+      color: white;
+      border-color: var(--inverse-line);
+    }
+
+    .contact-card ::placeholder { color: rgba(230,234,240,.48); }
+    .contact-card select option { color: var(--text); }
+
+    .footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    .reveal {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(38px) scale(.985);
+      transition:
+        opacity 1.05s var(--ease-out),
+        filter 1.05s var(--ease-out),
+        transform 1.05s var(--ease-out);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+
+    .typing-copy {
+      position: relative;
+    }
+
+    .typing-copy:not(.typed) {
+      color: transparent !important;
+    }
+
+    .typing-copy.typing-active,
+    .typing-copy.typed {
+      color: inherit !important;
+    }
+
+    .typing-copy.typing-active:after {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 3px;
+      vertical-align: -.12em;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: .62;
+      animation: paragraph-caret .72s steps(1, end) infinite;
+    }
+
+    @keyframes paragraph-caret {
+      0%, 48% { opacity: .62; }
+      49%, 100% { opacity: 0; }
+    }
+
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 24s linear infinite;
+    }
+
+    .marquee span {
+      display: inline-flex;
+      align-items: center;
+      height: 72px;
+      padding: 0 42px;
+      color: var(--muted);
+      font-family: "Google Sans Code", monospace;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes float-panel {
+      0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      50% { transform: translateY(-14px) rotateX(1deg) rotateY(-1deg); }
+    }
+
+    @keyframes google-aura-drift {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: .58; }
+      35% { transform: translate3d(18px, -14px, 0) rotate(3deg) scale(1.03); opacity: .72; }
+      70% { transform: translate3d(-12px, 16px, 0) rotate(-2deg) scale(.98); opacity: .62; }
+    }
+
+    @keyframes google-aura-breathe {
+      0%, 100% { transform: scale(.98); opacity: .34; }
+      50% { transform: scale(1.04); opacity: .52; }
+    }
+
+    @keyframes lift-in {
+      from { opacity: 0; transform: translateY(14px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 1180px) {
+      :root { --page-margin: 40px; }
+      .hero-grid, .pricing-layout, .contact-grid { grid-template-columns: 1fr; }
+      .device { min-height: 540px; }
+      .section-head { grid-template-columns: 1fr; align-items: start; }
+      .work-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      :root { --page-margin: 20px; --nav-height: 60px; }
+      .nav-inner { grid-template-columns: 1fr auto; }
+      .pill-nav-container, .nav-actions { display: none; }
+      .mobile-menu-button { display: inline-flex; }
+      .mobile-menu-popover {
+        position: fixed;
+        inset: var(--nav-height) 0 auto;
+        z-index: 45;
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px var(--page-margin) 18px;
+        background: rgba(255, 255, 255, .94);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+      }
+      .mobile-menu-popover.open { display: flex; }
+      .mobile-menu-list {
+        display: grid;
+        gap: 4px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .mobile-menu-link {
+        display: block;
+        padding: 14px 4px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .mobile-menu-link.is-active {
+        color: var(--grey-1200);
+      }
+      .hero { padding-top: calc(var(--nav-height) + 56px); }
+      .hero-grid { gap: 44px; }
+      .hero-meta, .card-grid, .control-grid, .feature-list, .preset-grid, .addon-groups { grid-template-columns: 1fr; }
+      .device-body { grid-template-columns: 1fr; }
+      .device { min-height: auto; }
+      .agent-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .agent-card { margin: 0; }
+      .preview-pane { min-height: 260px; }
+      .section { padding: 80px 0; }
+    }
+
+    @media (max-width: 560px) {
+      :root { --page-margin: 16px; }
+      h1 { font-size: 46px; letter-spacing: -.03em; }
+      h2 { font-size: 38px; }
+      .hero-copy, .section-head p { font-size: 17px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button { width: 100%; }
+      .metric { min-height: 112px; }
+      .metric strong { font-size: 32px; }
+      .agent-list { grid-template-columns: 1fr; }
+      .preview-card h2 { font-size: 24px; }
+      .process-grid { grid-template-columns: 1fr; }
+      .price-display { min-height: 340px; padding: 26px; }
+      .footer .container { align-items: flex-start; flex-direction: column; }
+      .footer-links { flex-wrap: wrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *:before, *:after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+
+    body.intro-lock {
+      overflow: hidden;
+    }
+
+    body.intro-playing .nav {
+      opacity: 0;
+      transform: translateY(-14px);
+    }
+
+    body.intro-playing .hero {
+      opacity: .08;
+      filter: blur(12px);
+      transform: translateY(0);
+    }
+
+    body.intro-awake .nav,
+    body.intro-awake .hero {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+
+    .nav,
+    .hero {
+      transition:
+        opacity 1.45s var(--ease-out),
+        filter 1.45s var(--ease-out),
+        transform 1.45s var(--ease-out);
+    }
+
+    .intro-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: grid;
+      place-items: center;
+      color: #e8eaed;
+      background: #0f1013;
+      backdrop-filter: blur(0);
+      transition:
+        background 1.65s var(--ease-out),
+        opacity 1.05s var(--ease-out),
+        visibility 1.05s var(--ease-out),
+        backdrop-filter 1.65s var(--ease-out);
+    }
+
+    .intro-loader.revealing {
+      background: rgba(15, 16, 19, 0);
+      backdrop-filter: blur(0);
+    }
+
+    .intro-loader.revealing .intro-stage {
+      opacity: 0;
+      transform: translateY(-44px) scale(.982);
+    }
+
+    .intro-loader.done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-stage {
+      position: relative;
+      width: min(92vw, 940px);
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      isolation: isolate;
+      transition: opacity 1.05s var(--ease-out), transform 1.05s var(--ease-out);
+    }
+
+    .intro-stage:before {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #4285f4;
+      box-shadow: 0 0 28px 14px rgba(66, 133, 244, .12);
+      transform: translate(-50%, -50%);
+      opacity: .72;
+    }
+
+    .intro-heading {
+      position: absolute;
+      top: 38px;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      transform: translateY(18px);
+      color: #f8f9fc;
+      font-size: clamp(42px, 8vw, 108px);
+      line-height: .92;
+      letter-spacing: -.04em;
+      font-weight: 450;
+      font-variation-settings: "wdth" 100, "opsz" 144;
+      transition: opacity .9s var(--ease-out), transform .9s var(--ease-out);
+    }
+
+    .intro-heading.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro-line {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 88px;
+      color: #e8eaed;
+      font-family: "Google Sans Code", monospace;
+      font-size: clamp(24px, 4vw, 52px);
+      line-height: 1;
+      letter-spacing: -.01em;
+      font-weight: 400;
+      font-variation-settings: "wdth" 100, "opsz" 18;
+      text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      transition:
+        transform .85s var(--ease-out),
+        text-shadow .85s var(--ease-out),
+        font-weight .85s var(--ease-out),
+        letter-spacing .85s var(--ease-out);
+    }
+
+    .intro-line.lifted {
+      transform: translateY(-10px);
+      font-family: "Google Sans Flex", "Google Sans", Arial, sans-serif;
+      font-weight: 500;
+      letter-spacing: -.035em;
+      font-variation-settings: "wdth" 100, "opsz" 72;
+      text-shadow: 0 28px 46px rgba(0, 0, 0, .58);
+    }
+
+    .intro-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 5px;
+      border-radius: 999px;
+      background: #4285f4;
+      box-shadow: 0 0 2px 1px rgba(66, 133, 244, .62);
+      animation: cursor-blink .5s steps(1, end) infinite;
+      transform-origin: center;
+      transition: width .5s var(--ease-out), height .5s var(--ease-out), border-radius .5s var(--ease-out), transform .8s var(--ease-out), opacity .6s ease;
+    }
+
+    .intro-cursor.particle {
+      width: 7px;
+      height: 7px;
+      margin-left: 14px;
+      border-radius: 50%;
+      animation: particle-drift 4.4s ease-in-out infinite;
+    }
+
+    .intro-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity .7s ease;
+    }
+
+    .intro-particles.visible {
+      opacity: 1;
+    }
+
+    .intro-particles span {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #4285f4;
+      box-shadow: 0 0 12px rgba(66, 133, 244, .55);
+      opacity: .46;
+      animation: particle-orbit 6s ease-in-out infinite;
+    }
+
+    .intro-particles span:nth-child(1) { left: 18%; top: 44%; animation-delay: .1s; }
+    .intro-particles span:nth-child(2) { left: 74%; top: 38%; animation-delay: .7s; }
+    .intro-particles span:nth-child(3) { left: 62%; top: 68%; animation-delay: 1.2s; }
+    .intro-particles span:nth-child(4) { left: 32%; top: 70%; animation-delay: 1.8s; }
+
+    .intro-skip {
+      position: absolute;
+      left: 50%;
+      bottom: 34px;
+      transform: translateX(-50%);
+      border: 1px solid rgba(230, 234, 240, .18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      color: rgba(232,234,237,.72);
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: "Google Sans Code", monospace;
+      font-size: 12px;
+      transition: color .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .intro-skip:hover,
+    .intro-skip:focus-visible {
+      color: #fff;
+      background: rgba(255,255,255,.12);
+      border-color: rgba(230, 234, 240, .32);
+      outline: none;
+    }
+
+    @keyframes cursor-blink {
+      0%, 48% { opacity: 1; }
+      49%, 100% { opacity: 0; }
+    }
+
+    @keyframes particle-drift {
+      0%, 100% { transform: translate(0, 0); opacity: .95; }
+      50% { transform: translate(18px, -18px); opacity: .58; }
+    }
+
+    @keyframes particle-orbit {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(18px, -26px, 0) scale(1.22); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body.intro-lock { overflow: auto; }
+      .intro-loader { display: none; }
+    }
+  </style>
+</head>
+<body class="intro-lock intro-playing">
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="intro-loader" id="introLoader" aria-label="Loading Websites4U">
+    <div class="intro-stage">
+      <div class="intro-particles" id="introParticles"><span></span><span></span><span></span><span></span></div>
+      <div class="intro-heading" id="introHeading">Websites4U</div>
+      <div class="intro-line" id="introLine"><span id="introText"></span><span class="intro-cursor" id="introCursor"></span></div>
+    </div>
+    <button class="intro-skip" id="introSkip" type="button">skip intro</button>
+  </div>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand pill-logo" href="#home" aria-label="Websites4U home" id="pillLogo">
+        <span class="brand-mark">W4U</span>
+        <span>Websites4U</span>
+      </a>
+      <div class="pill-nav-container">
+        <div class="pill-nav-items desktop-only" id="pillNavItems">
+          <ul class="pill-list" role="menubar">
+            <li role="none"><a role="menuitem" class="pill" href="#services"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Services</span><span class="pill-label-hover" aria-hidden="true">Services</span></span></a></li>
+            <li role="none"><a role="menuitem" class="pill" href="#work"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Work</span><span class="pill-label-hover" aria-hidden="true">Work</span></span></a></li>
+            <li role="none"><a role="menuitem" class="pill" href="#pricing"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Pricing</span><span class="pill-label-hover" aria-hidden="true">Pricing</span></span></a></li>
+            <li role="none"><a role="menuitem" class="pill" href="#process"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Process</span><span class="pill-label-hover" aria-hidden="true">Process</span></span></a></li>
+            <li role="none"><a role="menuitem" class="pill" href="#faq"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">FAQ</span><span class="pill-label-hover" aria-hidden="true">FAQ</span></span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a class="button button-tonal" href="https://wa.me/919999999999?text=Hello%20Websites4U%2C%20I%20want%20to%20discuss%20a%20website%20project." target="_blank" rel="noreferrer">WhatsApp</a>
+        <a class="button button-primary" href="#contact">Get quote</a>
+      </div>
+      <button class="mobile-menu-button mobile-only" id="menuButton" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu-popover mobile-only" id="mobileMenu">
+    <ul class="mobile-menu-list">
+      <li><a class="mobile-menu-link" href="#services">Services</a></li>
+      <li><a class="mobile-menu-link" href="#work">Work</a></li>
+      <li><a class="mobile-menu-link" href="#pricing">Pricing</a></li>
+      <li><a class="mobile-menu-link" href="#process">Process</a></li>
+      <li><a class="mobile-menu-link" href="#faq">FAQ</a></li>
+      <li><a class="mobile-menu-link" href="#contact">Get quote</a></li>
+    </ul>
+  </div>
+
+  <header class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="status-dot"></span> Build the new way for your business</div>
+        <h1>Launch a website that thinks like a sales team.</h1>
+        <p class="hero-copy">Websites4U designs fast business websites, ecommerce stores, portals, and lead systems with the same clean product feel people expect from modern software.</p>
+        <div class="hero-actions">
+          <a class="button button-primary arrow-link" href="#pricing">Estimate project</a>
+          <a class="button button-tonal arrow-link" href="#work">Explore designs</a>
+        </div>
+        <div class="hero-meta">
+          <div class="metric"><strong>7-21</strong><span>day launch windows for focused builds</span></div>
+          <div class="metric"><strong>90+</strong><span>mobile performance target after QA</span></div>
+          <div class="metric"><strong>24/7</strong><span>lead paths through forms and WhatsApp</span></div>
+        </div>
+      </div>
+
+      <div class="device reveal" aria-label="Website build interface preview">
+        <div class="device-top">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="code-label">w4u.workspace</div>
+        </div>
+        <div class="device-body">
+          <div class="agent-list">
+            <div class="agent-card active"><small>AGENT 01</small><b>Strategy</b><p>Audience, pages, offer, conversion path.</p></div>
+            <div class="agent-card"><small>AGENT 02</small><b>Design</b><p>Responsive layouts and visual system.</p></div>
+            <div class="agent-card"><small>AGENT 03</small><b>Build</b><p>Fast code, SEO basics, forms.</p></div>
+            <div class="agent-card"><small>AGENT 04</small><b>Launch</b><p>Hosting, analytics, domain checks.</p></div>
+          </div>
+          <div class="visual-stack">
+            <div class="preview-pane">
+              <div class="preview-card">
+                <p>Live website preview</p>
+                <h2>Clear pages. Faster decisions.</h2>
+              </div>
+            </div>
+            <div class="code-pane">
+              <div><span>const</span> website = build({</div>
+              <div>&nbsp;&nbsp;speed: <em>"fast"</em>,</div>
+              <div>&nbsp;&nbsp;seo: <em>"ready"</em>,</div>
+              <div>&nbsp;&nbsp;leads: <em>"captured"</em></div>
+              <div>});</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="marquee" aria-label="Industries served">
+    <div class="marquee-track">
+      <span>Schools and colleges</span><span>Cafes and restaurants</span><span>Ecommerce brands</span><span>Hotels and venues</span><span>Clinics and consultants</span><span>Startups and SaaS</span>
+      <span>Schools and colleges</span><span>Cafes and restaurants</span><span>Ecommerce brands</span><span>Hotels and venues</span><span>Clinics and consultants</span><span>Startups and SaaS</span>
+    </div>
+  </div>
+
+  <main>
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <p class="kicker">/ services</p>
+            <h2>Everything needed to turn visitors into enquiries.</h2>
+          </div>
+          <p>Pick a focused launch or combine modules. The system stays lean, readable, mobile-first, and ready for growth.</p>
+        </div>
+
+        <div class="filter-bar reveal" role="tablist" aria-label="Service filters">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="build">Build</button>
+          <button class="filter-tab" data-filter="growth">Growth</button>
+          <button class="filter-tab" data-filter="care">Care</button>
+        </div>
+
+        <div class="card-grid reveal">
+          <article class="service-card" data-category="build">
+            <div><span class="icon-badge"><i data-lucide="panel-top"></i></span><h3>Landing pages</h3><p>Single-page funnels with sharp copy, persuasive sections, forms, and WhatsApp handoff.</p></div>
+            <a class="arrow-link" href="#contact">Start here</a>
+          </article>
+          <article class="service-card" data-category="build">
+            <div><span class="icon-badge"><i data-lucide="building-2"></i></span><h3>Business websites</h3><p>Multi-page sites for services, schools, hotels, colleges, clinics, and local businesses.</p></div>
+            <a class="arrow-link" href="#contact">Plan site</a>
+          </article>
+          <article class="service-card" data-category="build">
+            <div><span class="icon-badge"><i data-lucide="shopping-bag"></i></span><h3>Ecommerce stores</h3><p>Product structure, category pages, offer banners, cart paths, and checkout-ready design.</p></div>
+            <a class="arrow-link" href="#contact">Sell online</a>
+          </article>
+          <article class="service-card" data-category="growth">
+            <div><span class="icon-badge"><i data-lucide="search-check"></i></span><h3>SEO foundations</h3><p>Clean headings, metadata, local SEO basics, schema structure, and index-ready pages.</p></div>
+            <a class="arrow-link" href="#contact">Improve search</a>
+          </article>
+          <article class="service-card" data-category="growth">
+            <div><span class="icon-badge"><i data-lucide="messages-square"></i></span><h3>Lead automation</h3><p>Forms and calls-to-action that package customer details into clear WhatsApp messages.</p></div>
+            <a class="arrow-link" href="#pricing">Calculate</a>
+          </article>
+          <article class="service-card" data-category="care">
+            <div><span class="icon-badge"><i data-lucide="shield-check"></i></span><h3>Website care</h3><p>Updates, backups, content swaps, speed checks, security hygiene, and ongoing support.</p></div>
+            <a class="arrow-link" href="#contact">Get support</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section inverse" id="work">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <p class="kicker">/ work style</p>
+            <h2>Modern pages with product-grade clarity.</h2>
+          </div>
+          <p>Large typography, focused messaging, calm motion, and interface-like sections help visitors understand fast and act with confidence.</p>
+        </div>
+        <div class="work-grid reveal">
+          <article class="work-card">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1300&q=80" loading="lazy" decoding="async" alt="Laptop showing digital work">
+            <div><h3>Education portals</h3><p>Admissions, courses, notices, faculty, parent enquiries, and mobile-friendly information flow.</p></div>
+          </article>
+          <div>
+            <article class="work-card compact">
+              <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80" loading="lazy" decoding="async" alt="Online shopping interface">
+              <div><h3>Ecommerce stores</h3><p>Catalogs that feel simple, trustworthy, and ready for checkout.</p></div>
+            </article>
+            <article class="work-card compact" style="margin-top:16px">
+              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80" loading="lazy" decoding="async" alt="Restaurant table">
+              <div><h3>Cafe and hotel sites</h3><p>Menus, rooms, bookings, maps, gallery, and instant contact paths.</p></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container pricing-layout">
+        <div class="price-display reveal">
+          <div>
+            <p class="kicker">/ calculator</p>
+            <h2>Build a smarter estimate.</h2>
+            <p>Choose a project preset, shape the scope, and see a realistic budget range with timeline and line-item breakdown.</p>
+          </div>
+          <div>
+            <strong id="totalPrice">INR 23,300</strong>
+            <div class="estimate-range">
+              <span id="rangeText">Typical range: INR 20,900 - INR 27,900</span>
+              <div class="estimate-meter"><span class="estimate-meter-fill" id="estimateMeter"></span></div>
+            </div>
+            <div class="estimate-meta">
+              <div><small>timeline</small><b id="timelineText">12-16 days</b></div>
+              <div><small>scope</small><b id="scopeText">Standard</b></div>
+            </div>
+            <div class="breakdown" id="breakdownList"></div>
+            <button class="button button-blue arrow-link" id="quoteButton" style="margin-top:24px">Send estimate on WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="price-panel reveal">
+          <div class="preset-grid" id="presetGrid">
+            <button class="preset-card" data-type="landing"><b>Launch page</b><span>One focused page for campaigns, offers, and fast lead capture.</span><small>from INR 8,500</small></button>
+            <button class="preset-card active" data-type="business"><b>Business site</b><span>Core pages, trust sections, SEO setup, and enquiry flow.</span><small>from INR 14,500</small></button>
+            <button class="preset-card" data-type="store"><b>Online store</b><span>Products, categories, offers, payment-ready layout, and catalog logic.</span><small>from INR 22,000</small></button>
+            <button class="preset-card" data-type="portal"><b>Custom portal</b><span>Dashboards, data flows, admin screens, and custom functionality.</span><small>from INR 28,500</small></button>
+          </div>
+
+          <div class="control-grid">
+            <label class="control"><strong>Design level</strong>
+              <select id="designLevel">
+                <option value="0.9">Essential</option>
+                <option value="1" selected>Modern</option>
+                <option value="1.18">Premium motion</option>
+                <option value="1.35">Custom product-grade</option>
+              </select>
+            </label>
+            <label class="control"><strong>Pages: <span id="pageCount">5</span></strong>
+              <input id="pages" type="range" min="1" max="20" value="5">
+            </label>
+            <label class="control"><strong>Timeline</strong>
+              <select id="timeline">
+                <option value="1.18">Rush launch</option>
+                <option value="1" selected>Standard</option>
+                <option value="0.92">Flexible</option>
+              </select>
+            </label>
+            <label class="control"><strong>Content readiness</strong>
+              <select id="contentReady">
+                <option value="0.95">Content ready</option>
+                <option value="1" selected>Needs polish</option>
+                <option value="1.12">Need copywriting</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="feature-list">
+            <label><input class="feature" type="checkbox" value="5000" checked data-name="SEO setup"><span><b>SEO setup</b>Titles, structure, schema basics</span></label>
+            <label><input class="feature" type="checkbox" value="3500" checked data-name="WhatsApp automation"><span><b>WhatsApp automation</b>Prefilled lead messages</span></label>
+            <label><input class="feature" type="checkbox" value="6500" data-name="CMS dashboard"><span><b>CMS dashboard</b>Edit your own content</span></label>
+            <label><input class="feature" type="checkbox" value="4500" data-name="Speed tuning"><span><b>Speed tuning</b>Performance pass and QA</span></label>
+            <label><input class="feature" type="checkbox" value="8000" data-name="Payment setup"><span><b>Payment setup</b>Store checkout or payment links</span></label>
+            <label><input class="feature" type="checkbox" value="7000" data-name="Booking flow"><span><b>Booking flow</b>Appointments, rooms, tables, or demo calls</span></label>
+          </div>
+          <p class="mini-note">This is an estimate, not a fixed quotation. The final proposal depends on content volume, integrations, revision depth, and exact launch requirements.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><p class="kicker">/ process</p><h2>One project, four clear phases.</h2></div>
+          <p>Each stage has a simple output, so you always know what is happening and what is needed next.</p>
+        </div>
+        <div class="process-grid reveal">
+          <article class="process-card"><span class="num">01</span><h3>Brief</h3><p>We map your audience, offer, pages, references, and launch target.</p></article>
+          <article class="process-card"><span class="num">02</span><h3>Design</h3><p>You review the visual direction, content structure, and conversion paths.</p></article>
+          <article class="process-card"><span class="num">03</span><h3>Build</h3><p>We create the responsive site, interactions, forms, SEO basics, and QA fixes.</p></article>
+          <article class="process-card"><span class="num">04</span><h3>Launch</h3><p>Domain, hosting, SSL, analytics, search console, and support handoff.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><p class="kicker">/ faq</p><h2>Answers before we begin.</h2></div>
+          <p>Short and useful, like a good project meeting.</p>
+        </div>
+        <div class="faq-wrap reveal">
+          <article class="faq-item"><button class="faq-toggle">How fast can we launch?<i data-lucide="plus"></i></button><div class="faq-panel"><p>A focused landing page can launch in about a week after content is ready. Multi-page sites and ecommerce builds usually take two to four weeks depending on scope.</p></div></article>
+          <article class="faq-item"><button class="faq-toggle">Can I update the site myself?<i data-lucide="plus"></i></button><div class="faq-panel"><p>Yes. We can add a CMS dashboard for regular edits, or keep the site lightweight and handle updates through a care plan.</p></div></article>
+          <article class="faq-item"><button class="faq-toggle">Do you help with domain and hosting?<i data-lucide="plus"></i></button><div class="faq-panel"><p>Yes. We can guide domain setup, hosting, SSL, email records, analytics, and basic search console configuration.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section inverse" id="contact">
+      <div class="container contact-grid">
+        <div class="reveal">
+          <p class="kicker">/ contact</p>
+          <h2>Share the project. We will shape the next step.</h2>
+          <p class="hero-copy" style="color:var(--grey-300)">The form opens WhatsApp with your details prefilled, so the conversation starts with context instead of confusion.</p>
+        </div>
+        <form class="contact-card reveal" id="contactForm">
+          <label>Name<input id="name" type="text" placeholder="Your name" required></label>
+          <label>Phone<input id="phone" type="tel" placeholder="+91 ..." required></label>
+          <label>Project
+            <select id="project">
+              <option>Business website</option>
+              <option>Landing page</option>
+              <option>Ecommerce store</option>
+              <option>School or college portal</option>
+              <option>Hotel or cafe website</option>
+              <option>Custom web app</option>
+            </select>
+          </label>
+          <label>Brief<textarea id="brief" placeholder="Goals, pages, references, timeline..."></textarea></label>
+          <button class="button button-blue arrow-link" type="submit">Send project brief</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Copyright 2026 Websites4U. Built for speed, clarity, and leads.</p>
+      <div class="footer-links"><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#home">Back to top</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const WHATSAPP_NUMBER = "919999999999";
+    const formatINR = (value) => "INR " + value.toLocaleString("en-IN");
+
+    const introLoader = document.querySelector("#introLoader");
+    const introText = document.querySelector("#introText");
+    const introLine = document.querySelector("#introLine");
+    const introCursor = document.querySelector("#introCursor");
+    const introHeading = document.querySelector("#introHeading");
+    const introParticles = document.querySelector("#introParticles");
+    const introSkip = document.querySelector("#introSkip");
+    const scrollProgress = document.querySelector("#scrollProgress");
+    let introFinished = false;
+
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    async function typeText(value, min = 40, max = 70) {
+      introText.textContent = "";
+      for (const character of value) {
+        introText.textContent += character;
+        await wait(min + Math.random() * (max - min));
+      }
+    }
+
+    async function deleteText(min = 14, max = 24) {
+      while (introText.textContent.length) {
+        introText.textContent = introText.textContent.slice(0, -1);
+        await wait(min + Math.random() * (max - min));
+      }
+    }
+
+    async function finishIntro(instant = false) {
+      if (introFinished) return;
+      introFinished = true;
+      document.body.classList.add("intro-awake");
+      introLoader?.classList.add("revealing");
+      if (!instant) await wait(1280);
+      introLoader?.classList.add("done");
+      document.body.classList.remove("intro-lock");
+      document.body.classList.remove("intro-playing");
+      beginScrollTyping();
+      await wait(instant ? 120 : 950);
+      introLoader?.remove();
+    }
+
+    async function playIntro() {
+      if (!introLoader || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.body.classList.remove("intro-lock");
+        document.body.classList.remove("intro-playing");
+        document.body.classList.add("intro-awake");
+        beginScrollTyping();
+        return;
+      }
+
+      await wait(620);
+      if (introFinished) return;
+      await typeText("w4u.--status: active", 30, 52);
+      await wait(260);
+      if (introFinished) return;
+      await deleteText(16, 28);
+      await typeText("Build the new way.", 48, 78);
+      if (introFinished) return;
+      introLine.classList.add("lifted");
+      await wait(430);
+      introHeading.classList.add("visible");
+      introCursor.classList.add("particle");
+      introParticles.classList.add("visible");
+      await wait(260);
+      finishIntro();
+    }
+
+    introSkip?.addEventListener("click", () => finishIntro(true));
+    window.addEventListener("load", playIntro, { once: true });
+
+    const menuButton = document.querySelector("#menuButton");
+    const mobileMenu = document.querySelector("#mobileMenu");
+    const pillItems = [...document.querySelectorAll(".pill")];
+    const pillTimelines = [];
+
+    function layoutPills() {
+      pillItems.forEach((pill, index) => {
+        const circle = pill.querySelector(".hover-circle");
+        const label = pill.querySelector(".pill-label");
+        const hoverLabel = pill.querySelector(".pill-label-hover");
+        if (!circle) return;
+
+        const { width: w, height: h } = pill.getBoundingClientRect();
+        const radius = ((w * w) / 4 + h * h) / (2 * h);
+        const diameter = Math.ceil(2 * radius) + 2;
+        const delta = Math.ceil(radius - Math.sqrt(Math.max(0, radius * radius - (w * w) / 4))) + 1;
+        const originY = diameter - delta;
+
+        circle.style.width = diameter + "px";
+        circle.style.height = diameter + "px";
+        circle.style.bottom = "-" + delta + "px";
+
+        if (window.gsap) {
+          gsap.set(circle, { xPercent: -50, scale: 0, transformOrigin: "50% " + originY + "px" });
+          gsap.set(label, { y: 0 });
+          gsap.set(hoverLabel, { y: Math.ceil(h + 100), opacity: 0 });
+          pillTimelines[index]?.kill();
+          const tl = gsap.timeline({ paused: true });
+          tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease: "power3.out", overwrite: "auto" }, 0);
+          tl.to(label, { y: -(h + 8), duration: 2, ease: "power3.out", overwrite: "auto" }, 0);
+          tl.to(hoverLabel, { y: 0, opacity: 1, duration: 2, ease: "power3.out", overwrite: "auto" }, 0);
+          pillTimelines[index] = tl;
+        }
+      });
+    }
+
+    layoutPills();
+    window.addEventListener("resize", layoutPills);
+    document.fonts?.ready?.then(layoutPills).catch(() => {});
+
+    pillItems.forEach((pill, index) => {
+      pill.addEventListener("mouseenter", () => {
+        if (window.gsap && pillTimelines[index]) {
+          pillTimelines[index].tweenTo(pillTimelines[index].duration(), { duration: .3, ease: "power3.out", overwrite: "auto" });
+        } else {
+          pill.classList.add("is-hovered");
+        }
+      });
+      pill.addEventListener("mouseleave", () => {
+        if (window.gsap && pillTimelines[index]) {
+          pillTimelines[index].tweenTo(0, { duration: .2, ease: "power3.out", overwrite: "auto" });
+        } else {
+          pill.classList.remove("is-hovered");
+        }
+      });
+    });
+
+    const navTargets = [...document.querySelectorAll(".pill, .mobile-menu-link")];
+    function setActiveNav(id) {
+      navTargets.forEach((link) => {
+        const isActive = link.getAttribute("href") === "#" + id;
+        link.classList.toggle("is-active", isActive);
+      });
+    }
+
+    const sectionSpy = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) setActiveNav(visible.target.id);
+    }, { threshold: [0.22, 0.42, 0.62], rootMargin: "-18% 0px -58% 0px" });
+
+    document.querySelectorAll("header[id], section[id]").forEach((section) => sectionSpy.observe(section));
+
+    document.querySelector("#pillLogo")?.addEventListener("mouseenter", () => {
+      const mark = document.querySelector("#pillLogo .brand-mark");
+      if (window.gsap && mark) {
+        gsap.fromTo(mark, { rotate: 0 }, { rotate: 360, duration: .28, ease: "power3.out", overwrite: "auto" });
+      }
+    });
+
+    if (window.gsap) {
+      const logo = document.querySelector("#pillLogo");
+      const navItems = document.querySelector("#pillNavItems");
+      if (logo) {
+        gsap.fromTo(logo, { scale: 0 }, { scale: 1, duration: .6, ease: "power3.out" });
+      }
+      if (navItems) {
+        gsap.fromTo(navItems, { width: 0 }, { width: "auto", duration: .6, ease: "power3.out" });
+      }
+      gsap.set(mobileMenu, { visibility: "hidden", opacity: 0, y: 10 });
+    }
+
+    menuButton.addEventListener("click", () => {
+      const open = !mobileMenu.classList.contains("open");
+      menuButton.setAttribute("aria-expanded", String(open));
+      const lines = menuButton.querySelectorAll(".hamburger-line");
+      if (window.gsap) {
+        if (open) {
+          mobileMenu.classList.add("open");
+          gsap.to(lines[0], { rotation: 45, y: 4, duration: .3, ease: "power3.out" });
+          gsap.to(lines[1], { rotation: -45, y: -4, duration: .3, ease: "power3.out" });
+          gsap.set(mobileMenu, { visibility: "visible" });
+          gsap.fromTo(mobileMenu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" });
+        } else {
+          gsap.to(lines, { rotation: 0, y: 0, duration: .3, ease: "power3.out" });
+          gsap.to(mobileMenu, {
+            opacity: 0,
+            y: 10,
+            duration: .2,
+            ease: "power3.out",
+            onComplete: () => {
+              mobileMenu.classList.remove("open");
+              gsap.set(mobileMenu, { visibility: "hidden" });
+            }
+          });
+        }
+      } else {
+        mobileMenu.classList.toggle("open", open);
+      }
+    });
+    mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+      menuButton.setAttribute("aria-expanded", "false");
+      if (window.gsap) {
+        gsap.to(menuButton.querySelectorAll(".hamburger-line"), { rotation: 0, y: 0, duration: .2, ease: "power3.out" });
+        gsap.to(mobileMenu, {
+          opacity: 0,
+          y: 10,
+          duration: .2,
+          ease: "power3.out",
+          onComplete: () => {
+            mobileMenu.classList.remove("open");
+            gsap.set(mobileMenu, { visibility: "hidden" });
+          }
+        });
+      } else {
+        mobileMenu.classList.remove("open");
+      }
+    }));
+
+    document.querySelectorAll(".filter-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const filter = tab.dataset.filter;
+        document.querySelectorAll(".filter-tab").forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+        document.querySelectorAll(".service-card").forEach((card) => {
+          const show = filter === "all" || card.dataset.category === filter;
+          card.style.display = show ? "flex" : "none";
+        });
+      });
+    });
+
+    const projectType = { value: "14500", label: "Business site" };
+    const projectPresets = {
+      landing: { label: "Launch page", base: 8500, pages: 1, days: 7, perPage: 900 },
+      business: { label: "Business site", base: 14500, pages: 5, days: 14, perPage: 900 },
+      store: { label: "Online store", base: 22000, pages: 8, days: 21, perPage: 1100 },
+      portal: { label: "Custom portal", base: 28500, pages: 10, days: 28, perPage: 1400 }
+    };
+
+    let activePreset = "business";
+    const presetButtons = [...document.querySelectorAll(".preset-card")];
+    const designLevel = document.querySelector("#designLevel");
+    const timeline = document.querySelector("#timeline");
+    const contentReady = document.querySelector("#contentReady");
+    const pages = document.querySelector("#pages");
+    const pageCount = document.querySelector("#pageCount");
+    const features = [...document.querySelectorAll(".feature")];
+    const totalPrice = document.querySelector("#totalPrice");
+    const rangeText = document.querySelector("#rangeText");
+    const timelineText = document.querySelector("#timelineText");
+    const scopeText = document.querySelector("#scopeText");
+    const estimateMeter = document.querySelector("#estimateMeter");
+    const breakdownList = document.querySelector("#breakdownList");
+
+    function calculatePrice() {
+      const preset = projectPresets[activePreset];
+      const breakdown = [];
+      let subtotal = preset.base;
+      const count = Number(pages.value);
+      const extraPages = Math.max(0, count - preset.pages);
+      const pageCost = extraPages * preset.perPage;
+      subtotal += pageCost;
+      breakdown.push([preset.label + " base", preset.base]);
+      if (pageCost) breakdown.push(["Extra pages", pageCost]);
+
+      let featureTotal = 0;
+      features.forEach((feature) => {
+        if (feature.checked) {
+          const value = Number(feature.value);
+          featureTotal += value;
+          breakdown.push([feature.dataset.name, value]);
+        }
+      });
+      subtotal += featureTotal;
+
+      const designMultiplier = Number(designLevel.value);
+      const timelineMultiplier = Number(timeline.value);
+      const contentMultiplier = Number(contentReady.value);
+      const total = Math.round((subtotal * designMultiplier * timelineMultiplier * contentMultiplier) / 100) * 100;
+      const low = Math.round((total * 0.9) / 100) * 100;
+      const high = Math.round((total * 1.18) / 100) * 100;
+      const timelineDays = Math.max(5, Math.round((preset.days + count * 0.8 + features.filter((feature) => feature.checked).length * 1.8) * (timeline.value === "1.18" ? 0.78 : timeline.value === "0.92" ? 1.18 : 1)));
+      const scopeScore = count + features.filter((feature) => feature.checked).length * 2 + (designMultiplier > 1 ? 3 : 0);
+      const scopeLabel = scopeScore > 18 ? "Advanced" : scopeScore > 10 ? "Growth" : "Lean";
+
+      pageCount.textContent = count;
+      totalPrice.textContent = formatINR(total);
+      rangeText.textContent = "Typical range: " + formatINR(low) + " - " + formatINR(high);
+      timelineText.textContent = timelineDays + "-" + (timelineDays + 5) + " days";
+      scopeText.textContent = scopeLabel;
+      estimateMeter.style.width = Math.min(94, Math.max(18, scopeScore * 4)) + "%";
+      breakdownList.innerHTML = breakdown.slice(0, 7).map(([label, value]) => '<div class="breakdown-row"><span>' + label + '</span><strong>' + formatINR(value) + '</strong></div>').join("");
+      return { total, low, high, timelineDays, scopeLabel, preset };
+    }
+
+    presetButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activePreset = button.dataset.type;
+        presetButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        pages.value = projectPresets[activePreset].pages;
+        calculatePrice();
+      });
+    });
+
+    [designLevel, timeline, contentReady, pages, ...features].forEach((input) => input.addEventListener("input", calculatePrice));
+    calculatePrice();
+
+    document.querySelector("#quoteButton").addEventListener("click", () => {
+      const estimate = calculatePrice();
+      const selected = features.filter((feature) => feature.checked).map((feature) => feature.dataset.name);
+      const message = [
+        "Hello Websites4U, I want a quote.",
+        "Project type: " + estimate.preset.label,
+        "Pages: " + pages.value,
+        "Design level: " + designLevel.options[designLevel.selectedIndex].text,
+        "Timeline: " + timeline.options[timeline.selectedIndex].text,
+        "Content: " + contentReady.options[contentReady.selectedIndex].text,
+        "Features: " + (selected.join(", ") || "None"),
+        "Estimated budget: " + formatINR(estimate.low) + " - " + formatINR(estimate.high),
+        "Estimated timeline: " + timelineText.textContent
+      ].join("\n");
+      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+    });
+
+    document.querySelectorAll(".faq-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const panel = button.nextElementSibling;
+        const icon = button.querySelector("i");
+        const answer = panel.querySelector(".typing-copy");
+        const isOpen = Boolean(panel.style.maxHeight);
+        document.querySelectorAll(".faq-panel").forEach((item) => item.style.maxHeight = null);
+        document.querySelectorAll(".faq-toggle i").forEach((item) => item.setAttribute("data-lucide", "plus"));
+        if (!isOpen) {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+          icon.setAttribute("data-lucide", "minus");
+          if (answer) {
+            typeParagraph(answer, panel);
+          }
+        }
+        lucide.createIcons();
+      });
+    });
+
+    document.querySelector("#contactForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const message = [
+        "Hello Websites4U, I want to start a project.",
+        "Name: " + document.querySelector("#name").value,
+        "Phone: " + document.querySelector("#phone").value,
+        "Project: " + document.querySelector("#project").value,
+        "Brief: " + (document.querySelector("#brief").value || "I will share details on call.")
+      ].join("\n");
+      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .14 });
+    document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
+
+    const typingTargets = [...document.querySelectorAll("p:not(.kicker)")].filter((item) => !item.closest("#introLoader"));
+    typingTargets.forEach((item) => {
+      const naturalHeight = item.getBoundingClientRect().height;
+      item.dataset.fullText = item.textContent.trim();
+      item.textContent = "";
+      item.classList.add("typing-copy");
+      item.style.minHeight = item.dataset.fullText ? naturalHeight + "px" : "";
+    });
+
+    async function typeParagraph(element, panel) {
+      if (!element || element.dataset.typed === "true") return;
+      const text = element.dataset.fullText || "";
+      element.dataset.typed = "true";
+      element.classList.add("typing-active");
+      element.textContent = "";
+
+      for (const character of text) {
+        element.textContent += character;
+        if (panel && panel.style.maxHeight) {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+        const pause = character === "." || character === "," ? 26 : 9;
+        await wait(pause + Math.random() * 16);
+      }
+
+      element.classList.remove("typing-active");
+      element.classList.add("typed");
+      element.style.minHeight = "";
+      if (panel && panel.style.maxHeight) {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    }
+
+    let typingStarted = false;
+    let typingObserver;
+
+    function beginScrollTyping() {
+      if (typingStarted) return;
+      typingStarted = true;
+      typingObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const target = entry.target;
+          if (!target.closest(".faq-panel")) {
+            typeParagraph(target);
+            typingObserver.unobserve(target);
+          }
+        });
+      }, { threshold: .45, rootMargin: "0px 0px -8% 0px" });
+
+      typingTargets.forEach((item) => typingObserver.observe(item));
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      typingTargets.forEach((item) => {
+        item.textContent = item.dataset.fullText || "";
+        item.classList.add("typed");
+        item.style.minHeight = "";
+      });
+    }
+
+    function updateScrollProgress() {
+      if (!scrollProgress) return;
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      scrollProgress.style.transform = "scaleX(" + Math.min(1, window.scrollY / max) + ")";
+    }
+
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    window.addEventListener("resize", updateScrollProgress);
+    updateScrollProgress();
+
+    const device = document.querySelector(".device");
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+    document.addEventListener("mousemove", (event) => {
+      if (!device || window.matchMedia("(max-width: 860px)").matches) return;
+      pointer.tx = (event.clientX / window.innerWidth - .5) * 10;
+      pointer.ty = (event.clientY / window.innerHeight - .5) * -8;
+    }, { passive: true });
+
+    function animateDevice() {
+      if (device && !window.matchMedia("(max-width: 860px)").matches) {
+        pointer.x += (pointer.tx - pointer.x) * .08;
+        pointer.y += (pointer.ty - pointer.y) * .08;
+        device.style.transform = "translateY(-8px) rotateX(" + pointer.y.toFixed(2) + "deg) rotateY(" + pointer.x.toFixed(2) + "deg)";
+      }
+      requestAnimationFrame(animateDevice);
+    }
+    animateDevice();
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
