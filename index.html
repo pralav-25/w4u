@@ -2018,6 +2018,11 @@
       if (event.key === "Escape") closeMobileMenu({ returnFocus: true });
     });
 
+    const mobileViewport = window.matchMedia("(max-width: 860px)");
+    mobileViewport.addEventListener("change", (event) => {
+      if (!event.matches) closeMobileMenu();
+    });
+
     document.querySelectorAll(".filter-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         const filter = tab.dataset.filter;
