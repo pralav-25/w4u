@@ -7,8 +7,8 @@
   <title>Websites4U - Build the web presence your business needs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,400..500,0..100&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,400..500,0..100&family=Google+Sans+Code:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,400..500,0..100&amp;display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,400..500,0..100&amp;family=Google+Sans+Code:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <style>
@@ -1455,7 +1455,11 @@
       color: #fff;
       background: rgba(255,255,255,.12);
       border-color: rgba(230, 234, 240, .32);
-      outline: none;
+    }
+
+    :where(a, button, input, select, textarea):focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
     }
 
     @keyframes cursor-blink {
@@ -1489,7 +1493,7 @@
     </div>
     <button class="intro-skip" id="introSkip" type="button">skip intro</button>
   </div>
-  <nav class="nav">
+  <nav class="nav" aria-label="Primary navigation">
     <div class="container nav-inner">
       <a class="brand pill-logo" href="#home" aria-label="Websites4U home" id="pillLogo">
         <span class="brand-mark">W4U</span>
@@ -1510,14 +1514,14 @@
         <a class="button button-tonal" href="https://wa.me/919999999999?text=Hello%20Websites4U%2C%20I%20want%20to%20discuss%20a%20website%20project." target="_blank" rel="noreferrer">WhatsApp</a>
         <a class="button button-primary" href="#contact">Get quote</a>
       </div>
-      <button class="mobile-menu-button mobile-only" id="menuButton" aria-label="Toggle menu" aria-expanded="false">
+      <button class="mobile-menu-button mobile-only" id="menuButton" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
       </button>
     </div>
   </nav>
 
-  <div class="mobile-menu-popover mobile-only" id="mobileMenu">
+  <nav class="mobile-menu-popover mobile-only" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true">
     <ul class="mobile-menu-list">
       <li><a class="mobile-menu-link" href="#services">Services</a></li>
       <li><a class="mobile-menu-link" href="#work">Work</a></li>
@@ -1526,7 +1530,7 @@
       <li><a class="mobile-menu-link" href="#faq">FAQ</a></li>
       <li><a class="mobile-menu-link" href="#contact">Get quote</a></li>
     </ul>
-  </div>
+  </nav>
 
   <header class="hero" id="home">
     <div class="container hero-grid">
@@ -1595,11 +1599,11 @@
           <p>Pick a focused launch or combine modules. The system stays lean, readable, mobile-first, and ready for growth.</p>
         </div>
 
-        <div class="filter-bar reveal" role="tablist" aria-label="Service filters">
-          <button class="filter-tab active" data-filter="all">All</button>
-          <button class="filter-tab" data-filter="build">Build</button>
-          <button class="filter-tab" data-filter="growth">Growth</button>
-          <button class="filter-tab" data-filter="care">Care</button>
+        <div class="filter-bar reveal" role="group" aria-label="Filter services">
+          <button class="filter-tab active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-tab" type="button" data-filter="build" aria-pressed="false">Build</button>
+          <button class="filter-tab" type="button" data-filter="growth" aria-pressed="false">Growth</button>
+          <button class="filter-tab" type="button" data-filter="care" aria-pressed="false">Care</button>
         </div>
 
         <div class="card-grid reveal">
@@ -1678,16 +1682,16 @@
               <div><small>scope</small><b id="scopeText">Standard</b></div>
             </div>
             <div class="breakdown" id="breakdownList"></div>
-            <button class="button button-blue arrow-link" id="quoteButton" style="margin-top:24px">Send estimate on WhatsApp</button>
+            <button class="button button-blue arrow-link" id="quoteButton" type="button" style="margin-top:24px">Send estimate on WhatsApp</button>
           </div>
         </div>
 
         <div class="price-panel reveal">
           <div class="preset-grid" id="presetGrid">
-            <button class="preset-card" data-type="landing"><b>Launch page</b><span>One focused page for campaigns, offers, and fast lead capture.</span><small>from INR 8,500</small></button>
-            <button class="preset-card active" data-type="business"><b>Business site</b><span>Core pages, trust sections, SEO setup, and enquiry flow.</span><small>from INR 14,500</small></button>
-            <button class="preset-card" data-type="store"><b>Online store</b><span>Products, categories, offers, payment-ready layout, and catalog logic.</span><small>from INR 22,000</small></button>
-            <button class="preset-card" data-type="portal"><b>Custom portal</b><span>Dashboards, data flows, admin screens, and custom functionality.</span><small>from INR 28,500</small></button>
+            <button class="preset-card" type="button" data-type="landing" aria-pressed="false"><b>Launch page</b><span>One focused page for campaigns, offers, and fast lead capture.</span><small>from INR 8,500</small></button>
+            <button class="preset-card active" type="button" data-type="business" aria-pressed="true"><b>Business site</b><span>Core pages, trust sections, SEO setup, and enquiry flow.</span><small>from INR 14,500</small></button>
+            <button class="preset-card" type="button" data-type="store" aria-pressed="false"><b>Online store</b><span>Products, categories, offers, payment-ready layout, and catalog logic.</span><small>from INR 22,000</small></button>
+            <button class="preset-card" type="button" data-type="portal" aria-pressed="false"><b>Custom portal</b><span>Dashboards, data flows, admin screens, and custom functionality.</span><small>from INR 28,500</small></button>
           </div>
 
           <div class="control-grid">
@@ -1753,9 +1757,9 @@
           <p>Short and useful, like a good project meeting.</p>
         </div>
         <div class="faq-wrap reveal">
-          <article class="faq-item"><button class="faq-toggle">How fast can we launch?<i data-lucide="plus"></i></button><div class="faq-panel"><p>A focused landing page can launch in about a week after content is ready. Multi-page sites and ecommerce builds usually take two to four weeks depending on scope.</p></div></article>
-          <article class="faq-item"><button class="faq-toggle">Can I update the site myself?<i data-lucide="plus"></i></button><div class="faq-panel"><p>Yes. We can add a CMS dashboard for regular edits, or keep the site lightweight and handle updates through a care plan.</p></div></article>
-          <article class="faq-item"><button class="faq-toggle">Do you help with domain and hosting?<i data-lucide="plus"></i></button><div class="faq-panel"><p>Yes. We can guide domain setup, hosting, SSL, email records, analytics, and basic search console configuration.</p></div></article>
+          <article class="faq-item"><button class="faq-toggle" id="faq-button-1" type="button" aria-expanded="false" aria-controls="faq-panel-1">How fast can we launch?<i data-lucide="plus" aria-hidden="true"></i></button><div class="faq-panel" id="faq-panel-1" role="region" aria-labelledby="faq-button-1" aria-hidden="true"><p>A focused landing page can launch in about a week after content is ready. Multi-page sites and ecommerce builds usually take two to four weeks depending on scope.</p></div></article>
+          <article class="faq-item"><button class="faq-toggle" id="faq-button-2" type="button" aria-expanded="false" aria-controls="faq-panel-2">Can I update the site myself?<i data-lucide="plus" aria-hidden="true"></i></button><div class="faq-panel" id="faq-panel-2" role="region" aria-labelledby="faq-button-2" aria-hidden="true"><p>Yes. We can add a CMS dashboard for regular edits, or keep the site lightweight and handle updates through a care plan.</p></div></article>
+          <article class="faq-item"><button class="faq-toggle" id="faq-button-3" type="button" aria-expanded="false" aria-controls="faq-panel-3">Do you help with domain and hosting?<i data-lucide="plus" aria-hidden="true"></i></button><div class="faq-panel" id="faq-panel-3" role="region" aria-labelledby="faq-button-3" aria-hidden="true"><p>Yes. We can guide domain setup, hosting, SSL, email records, analytics, and basic search console configuration.</p></div></article>
         </div>
       </div>
     </section>
@@ -1964,6 +1968,7 @@
     menuButton.addEventListener("click", () => {
       const open = !mobileMenu.classList.contains("open");
       menuButton.setAttribute("aria-expanded", String(open));
+      mobileMenu.setAttribute("aria-hidden", String(!open));
       const lines = menuButton.querySelectorAll(".hamburger-line");
       if (window.gsap) {
         if (open) {
@@ -1991,6 +1996,7 @@
     });
     mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
       menuButton.setAttribute("aria-expanded", "false");
+      mobileMenu.setAttribute("aria-hidden", "true");
       if (window.gsap) {
         gsap.to(menuButton.querySelectorAll(".hamburger-line"), { rotation: 0, y: 0, duration: .2, ease: "power3.out" });
         gsap.to(mobileMenu, {
@@ -2011,11 +2017,14 @@
     document.querySelectorAll(".filter-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         const filter = tab.dataset.filter;
-        document.querySelectorAll(".filter-tab").forEach((item) => item.classList.remove("active"));
-        tab.classList.add("active");
+        document.querySelectorAll(".filter-tab").forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
         document.querySelectorAll(".service-card").forEach((card) => {
           const show = filter === "all" || card.dataset.category === filter;
-          card.style.display = show ? "flex" : "none";
+          card.hidden = !show;
         });
       });
     });
@@ -2087,8 +2096,11 @@
     presetButtons.forEach((button) => {
       button.addEventListener("click", () => {
         activePreset = button.dataset.type;
-        presetButtons.forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
+        presetButtons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
         pages.value = projectPresets[activePreset].pages;
         calculatePrice();
       });
@@ -2117,13 +2129,21 @@
     document.querySelectorAll(".faq-toggle").forEach((button) => {
       button.addEventListener("click", () => {
         const panel = button.nextElementSibling;
-        const icon = button.querySelector("i");
+        const icon = button.querySelector("[data-lucide]");
         const answer = panel.querySelector(".typing-copy");
-        const isOpen = Boolean(panel.style.maxHeight);
-        document.querySelectorAll(".faq-panel").forEach((item) => item.style.maxHeight = null);
-        document.querySelectorAll(".faq-toggle i").forEach((item) => item.setAttribute("data-lucide", "plus"));
+        const isOpen = button.getAttribute("aria-expanded") === "true";
+        document.querySelectorAll(".faq-panel").forEach((item) => {
+          item.style.maxHeight = null;
+          item.setAttribute("aria-hidden", "true");
+        });
+        document.querySelectorAll(".faq-toggle").forEach((item) => {
+          item.setAttribute("aria-expanded", "false");
+          item.querySelector("[data-lucide]").setAttribute("data-lucide", "plus");
+        });
         if (!isOpen) {
           panel.style.maxHeight = panel.scrollHeight + "px";
+          panel.setAttribute("aria-hidden", "false");
+          button.setAttribute("aria-expanded", "true");
           icon.setAttribute("data-lucide", "minus");
           if (answer) {
             typeParagraph(answer, panel);
