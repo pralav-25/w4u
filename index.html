@@ -1511,7 +1511,7 @@
         </div>
       </div>
       <div class="nav-actions">
-        <a class="button button-tonal" href="https://wa.me/919999999999?text=Hello%20Websites4U%2C%20I%20want%20to%20discuss%20a%20website%20project." target="_blank" rel="noreferrer">WhatsApp</a>
+        <a class="button button-tonal" href="mailto:singhpralav07@gmail.com?subject=Website%20project%20enquiry">Email</a>
         <a class="button button-primary" href="#contact">Get quote</a>
       </div>
       <button class="mobile-menu-button mobile-only" id="menuButton" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -1682,7 +1682,7 @@
               <div><small>scope</small><b id="scopeText">Standard</b></div>
             </div>
             <div class="breakdown" id="breakdownList"></div>
-            <button class="button button-blue arrow-link" id="quoteButton" type="button" style="margin-top:24px">Send estimate on WhatsApp</button>
+            <button class="button button-blue arrow-link" id="quoteButton" type="button" style="margin-top:24px">Email estimate</button>
           </div>
         </div>
 
@@ -1769,7 +1769,7 @@
         <div class="reveal">
           <p class="kicker">/ contact</p>
           <h2>Share the project. We will shape the next step.</h2>
-          <p class="hero-copy" style="color:var(--grey-300)">The form opens WhatsApp with your details prefilled, so the conversation starts with context instead of confusion.</p>
+          <p class="hero-copy" style="color:var(--grey-300)">The form opens your email app with the project details prefilled, so the conversation starts with useful context.</p>
         </div>
         <form class="contact-card reveal" id="contactForm">
           <label>Name<input id="name" type="text" placeholder="Your name" required></label>
@@ -1785,7 +1785,7 @@
             </select>
           </label>
           <label>Brief<textarea id="brief" placeholder="Goals, pages, references, timeline..."></textarea></label>
-          <button class="button button-blue arrow-link" type="submit">Send project brief</button>
+          <button class="button button-blue arrow-link" type="submit">Email project brief</button>
         </form>
       </div>
     </section>
@@ -1799,7 +1799,7 @@
   </footer>
 
   <script>
-    const WHATSAPP_NUMBER = "919999999999";
+    const CONTACT_EMAIL = "singhpralav07@gmail.com";
     const formatINR = (value) => "INR " + value.toLocaleString("en-IN");
 
     const introLoader = document.querySelector("#introLoader");
@@ -2123,7 +2123,9 @@
         "Estimated budget: " + formatINR(estimate.low) + " - " + formatINR(estimate.high),
         "Estimated timeline: " + timelineText.textContent
       ].join("\n");
-      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+      window.location.href = "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent("Websites4U project estimate") +
+        "&body=" + encodeURIComponent(message);
     });
 
     document.querySelectorAll(".faq-toggle").forEach((button) => {
@@ -2162,7 +2164,9 @@
         "Project: " + document.querySelector("#project").value,
         "Brief: " + (document.querySelector("#brief").value || "I will share details on call.")
       ].join("\n");
-      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+      window.location.href = "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent("Websites4U project brief") +
+        "&body=" + encodeURIComponent(message);
     });
 
     const observer = new IntersectionObserver((entries) => {
