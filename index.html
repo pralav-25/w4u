@@ -1965,40 +1965,29 @@
       gsap.set(mobileMenu, { visibility: "hidden", opacity: 0, y: 10 });
     }
 
-    menuButton.addEventListener("click", () => {
-      const open = !mobileMenu.classList.contains("open");
-      menuButton.setAttribute("aria-expanded", String(open));
-      mobileMenu.setAttribute("aria-hidden", String(!open));
-      const lines = menuButton.querySelectorAll(".hamburger-line");
+    const mobileMenuLines = menuButton.querySelectorAll(".hamburger-line");
+
+    function openMobileMenu() {
+      menuButton.setAttribute("aria-expanded", "true");
+      mobileMenu.setAttribute("aria-hidden", "false");
+      mobileMenu.classList.add("open");
+
       if (window.gsap) {
-        if (open) {
-          mobileMenu.classList.add("open");
-          gsap.to(lines[0], { rotation: 45, y: 4, duration: .3, ease: "power3.out" });
-          gsap.to(lines[1], { rotation: -45, y: -4, duration: .3, ease: "power3.out" });
-          gsap.set(mobileMenu, { visibility: "visible" });
-          gsap.fromTo(mobileMenu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" });
-        } else {
-          gsap.to(lines, { rotation: 0, y: 0, duration: .3, ease: "power3.out" });
-          gsap.to(mobileMenu, {
-            opacity: 0,
-            y: 10,
-            duration: .2,
-            ease: "power3.out",
-            onComplete: () => {
-              mobileMenu.classList.remove("open");
-              gsap.set(mobileMenu, { visibility: "hidden" });
-            }
-          });
-        }
-      } else {
-        mobileMenu.classList.toggle("open", open);
+        gsap.to(mobileMenuLines[0], { rotation: 45, y: 4, duration: .3, ease: "power3.out" });
+        gsap.to(mobileMenuLines[1], { rotation: -45, y: -4, duration: .3, ease: "power3.out" });
+        gsap.set(mobileMenu, { visibility: "visible" });
+        gsap.fromTo(mobileMenu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" });
       }
-    });
-    mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+    }
+
+    function closeMobileMenu({ returnFocus = false } = {}) {
+      if (!mobileMenu.classList.contains("open")) return;
+
       menuButton.setAttribute("aria-expanded", "false");
       mobileMenu.setAttribute("aria-hidden", "true");
+
       if (window.gsap) {
-        gsap.to(menuButton.querySelectorAll(".hamburger-line"), { rotation: 0, y: 0, duration: .2, ease: "power3.out" });
+        gsap.to(mobileMenuLines, { rotation: 0, y: 0, duration: .2, ease: "power3.out" });
         gsap.to(mobileMenu, {
           opacity: 0,
           y: 10,
@@ -2012,7 +2001,22 @@
       } else {
         mobileMenu.classList.remove("open");
       }
-    }));
+
+      if (returnFocus) menuButton.focus();
+    }
+
+    menuButton.addEventListener("click", () => {
+      if (mobileMenu.classList.contains("open")) closeMobileMenu();
+      else openMobileMenu();
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => closeMobileMenu());
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMobileMenu({ returnFocus: true });
+    });
 
     document.querySelectorAll(".filter-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
