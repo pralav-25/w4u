@@ -1798,6 +1798,7 @@
     </div>
   </footer>
 
+  <script src="scripts/estimator.js"></script>
   <script>
     const CONTACT_EMAIL = "singhpralav07@gmail.com";
     const formatINR = (value) => "INR " + value.toLocaleString("en-IN");
@@ -2038,13 +2039,7 @@
       });
     });
 
-    const projectType = { value: "14500", label: "Business site" };
-    const projectPresets = {
-      landing: { label: "Launch page", base: 8500, pages: 1, days: 7, perPage: 900 },
-      business: { label: "Business site", base: 14500, pages: 5, days: 14, perPage: 900 },
-      store: { label: "Online store", base: 22000, pages: 8, days: 21, perPage: 1100 },
-      portal: { label: "Custom portal", base: 28500, pages: 10, days: 28, perPage: 1400 }
-    };
+    const projectPresets = Websites4UEstimator.presets;
 
     let activePreset = "business";
     const presetButtons = [...document.querySelectorAll(".preset-card")];
@@ -2062,35 +2057,13 @@
     const breakdownList = document.querySelector("#breakdownList");
 
     function calculatePrice() {
-      const preset = projectPresets[activePreset];
-      const breakdown = [];
-      let subtotal = preset.base;
       const count = Number(pages.value);
-      const extraPages = Math.max(0, count - preset.pages);
-      const pageCost = extraPages * preset.perPage;
-      subtotal += pageCost;
-      breakdown.push([preset.label + " base", preset.base]);
-      if (pageCost) breakdown.push(["Extra pages", pageCost]);
-
-      let featureTotal = 0;
-      features.forEach((feature) => {
-        if (feature.checked) {
-          const value = Number(feature.value);
-          featureTotal += value;
-          breakdown.push([feature.dataset.name, value]);
-        }
+      const { total, low, high, timelineDays, scopeScore, scopeLabel, breakdown, preset } = Websites4UEstimator.estimate({
+        preset: activePreset,
+        pages: count,
+        features: features.filter(feature => feature.checked).map(feature => ({ label: feature.dataset.name, price: Number(feature.value) })),
+        design: Number(designLevel.value), timeline: Number(timeline.value), content: Number(contentReady.value)
       });
-      subtotal += featureTotal;
-
-      const designMultiplier = Number(designLevel.value);
-      const timelineMultiplier = Number(timeline.value);
-      const contentMultiplier = Number(contentReady.value);
-      const total = Math.round((subtotal * designMultiplier * timelineMultiplier * contentMultiplier) / 100) * 100;
-      const low = Math.round((total * 0.9) / 100) * 100;
-      const high = Math.round((total * 1.18) / 100) * 100;
-      const timelineDays = Math.max(5, Math.round((preset.days + count * 0.8 + features.filter((feature) => feature.checked).length * 1.8) * (timeline.value === "1.18" ? 0.78 : timeline.value === "0.92" ? 1.18 : 1)));
-      const scopeScore = count + features.filter((feature) => feature.checked).length * 2 + (designMultiplier > 1 ? 3 : 0);
-      const scopeLabel = scopeScore > 18 ? "Advanced" : scopeScore > 10 ? "Growth" : "Lean";
 
       pageCount.textContent = count;
       totalPrice.textContent = formatINR(total);
@@ -2098,7 +2071,7 @@
       timelineText.textContent = timelineDays + "-" + (timelineDays + 5) + " days";
       scopeText.textContent = scopeLabel;
       estimateMeter.style.width = Math.min(94, Math.max(18, scopeScore * 4)) + "%";
-      breakdownList.innerHTML = breakdown.slice(0, 7).map(([label, value]) => '<div class="breakdown-row"><span>' + label + '</span><strong>' + formatINR(value) + '</strong></div>').join("");
+      breakdownList.innerHTML = breakdown.map(([label, value]) => '<div class="breakdown-row"><span>' + label + '</span><strong>' + formatINR(value) + '</strong></div>').join("");
       return { total, low, high, timelineDays, scopeLabel, preset };
     }
 
