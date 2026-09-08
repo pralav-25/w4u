@@ -1772,8 +1772,8 @@
           <p class="hero-copy" style="color:var(--grey-300)">The form opens your email app with the project details prefilled, so the conversation starts with useful context.</p>
         </div>
         <form class="contact-card reveal" id="contactForm">
-          <label>Name<input id="name" type="text" placeholder="Your name" required></label>
-          <label>Phone<input id="phone" type="tel" placeholder="+91 ..." required></label>
+          <label>Name<input id="name" name="name" autocomplete="name" maxlength="120" type="text" placeholder="Your name" required></label>
+          <label>Phone<input id="phone" name="phone" autocomplete="tel" maxlength="40" type="tel" placeholder="+91 ..." required></label>
           <label>Project
             <select id="project">
               <option>Business website</option>
@@ -1784,8 +1784,11 @@
               <option>Custom web app</option>
             </select>
           </label>
-          <label>Brief<textarea id="brief" placeholder="Goals, pages, references, timeline..."></textarea></label>
+          <label>Brief<textarea id="brief" maxlength="4000" placeholder="Goals, pages, references, timeline..."></textarea></label>
           <button class="button button-blue arrow-link" type="submit">Email project brief</button>
+          <button class="button" id="downloadBrief" type="button">Download brief (.txt)</button>
+          <p id="briefStatus" role="status" aria-live="polite"></p>
+          <p>Email not opening? <a id="contactEmailFallback" href="mailto:singhpralav07@gmail.com">Email us directly</a>, or download your brief.</p>
         </form>
       </div>
     </section>
@@ -2137,18 +2140,40 @@
       });
     });
 
-    document.querySelector("#contactForm").addEventListener("submit", (event) => {
+    document.querySelector('#contactEmailFallback').href = 'mailto:' + CONTACT_EMAIL;
+    document.querySelector('#contactEmailFallback').textContent = CONTACT_EMAIL;
+    function projectBrief() {
+      const form = document.querySelector('#contactForm');
+      if (!form.reportValidity()) return null;
+      const name = document.querySelector('#name').value.trim();
+      const phone = document.querySelector('#phone').value.trim();
+      if (!name || !phone) {
+        document.querySelector('#briefStatus').textContent = 'Enter your name and phone number.';
+        return null;
+      }
+      return [
+        'Hello Websites4U, I want to start a project.',
+        'Name: ' + name, 'Phone: ' + phone,
+        'Project: ' + document.querySelector('#project').value,
+        'Brief: ' + (document.querySelector('#brief').value.trim() || 'I will share details on call.')
+      ].join('\n');
+    }
+    document.querySelector('#contactForm').addEventListener('submit', event => {
       event.preventDefault();
-      const message = [
-        "Hello Websites4U, I want to start a project.",
-        "Name: " + document.querySelector("#name").value,
-        "Phone: " + document.querySelector("#phone").value,
-        "Project: " + document.querySelector("#project").value,
-        "Brief: " + (document.querySelector("#brief").value || "I will share details on call.")
-      ].join("\n");
-      window.location.href = "mailto:" + CONTACT_EMAIL +
-        "?subject=" + encodeURIComponent("Websites4U project brief") +
-        "&body=" + encodeURIComponent(message);
+      const message = projectBrief();
+      if (!message) return;
+      window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Websites4U project brief') + '&body=' + encodeURIComponent(message);
+      document.querySelector('#briefStatus').textContent = 'Your email app was requested. Review and send the draft there. You can also download it below.';
+    });
+    document.querySelector('#downloadBrief').addEventListener('click', () => {
+      const message = projectBrief();
+      if (!message) return;
+      const url = URL.createObjectURL(new Blob([message], { type: 'text/plain;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url; link.download = 'websites4u-project-brief.txt';
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      document.querySelector('#briefStatus').textContent = 'Your brief is ready to download. Nothing has been sent.';
     });
 
     const observer = new IntersectionObserver((entries) => {

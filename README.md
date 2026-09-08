@@ -55,3 +55,7 @@ Requires Python 3 and Node.js 22+. The pure calculation in
 prices, and multipliers, and includes a combined adjustment line so the visible
 breakdown always adds up to the final estimate. Tests cover presets, modifiers,
 range bounds, rush timing, and invalid inputs. GitHub Actions runs both checks.
+
+The contact form retains the brief after opening the email application. Visitors
+can download a plain-text copy when email is unavailable, or use the displayed
+contact address. A status message distinguishes preparing a draft from sending it.
