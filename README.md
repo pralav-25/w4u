@@ -38,6 +38,17 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
+## Try the estimator
+
+1. Open the site and find **Build a smarter estimate**.
+2. Choose a preset such as **Business site**, then adjust the page count and features.
+3. Compare the budget range, delivery guidance, and line-item breakdown as the scope changes.
+4. Select **Email estimate** to review the prepared estimate in your email application.
+
+For the separate contact form, **Download brief (.txt)** saves a copy of the
+entered brief when an email application is unavailable. Opening an email draft
+does not send it; review and send it from your email application.
+
 ## Project status
 
 This is a front-end portfolio project. Pricing is illustrative, and the enquiry
