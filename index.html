@@ -1683,6 +1683,8 @@
             </div>
             <div class="breakdown" id="breakdownList"></div>
             <button class="button button-blue arrow-link" id="quoteButton" type="button" style="margin-top:24px">Email estimate</button>
+            <button class="button" id="downloadEstimate" type="button" style="margin-top:12px">Download estimate (.txt)</button>
+            <p id="estimateDownloadStatus" role="status" aria-live="polite"></p>
           </div>
         </div>
 
@@ -2075,7 +2077,7 @@
       scopeText.textContent = scopeLabel;
       estimateMeter.style.width = Math.min(94, Math.max(18, scopeScore * 4)) + "%";
       breakdownList.innerHTML = breakdown.map(([label, value]) => '<div class="breakdown-row"><span>' + label + '</span><strong>' + formatINR(value) + '</strong></div>').join("");
-      return { total, low, high, timelineDays, scopeLabel, preset };
+      return { total, low, high, timelineDays, scopeLabel, preset, breakdown };
     }
 
     presetButtons.forEach((button) => {
@@ -2094,11 +2096,11 @@
     [designLevel, timeline, contentReady, pages, ...features].forEach((input) => input.addEventListener("input", calculatePrice));
     calculatePrice();
 
-    document.querySelector("#quoteButton").addEventListener("click", () => {
+    function estimateMessage() {
       const estimate = calculatePrice();
       const selected = features.filter((feature) => feature.checked).map((feature) => feature.dataset.name);
-      const message = [
-        "Hello Websites4U, I want a quote.",
+      return [
+        "Websites4U project estimate",
         "Project type: " + estimate.preset.label,
         "Pages: " + pages.value,
         "Design level: " + designLevel.options[designLevel.selectedIndex].text,
@@ -2106,8 +2108,23 @@
         "Content: " + contentReady.options[contentReady.selectedIndex].text,
         "Features: " + (selected.join(", ") || "None"),
         "Estimated budget: " + formatINR(estimate.low) + " - " + formatINR(estimate.high),
-        "Estimated timeline: " + timelineText.textContent
+        "Estimated timeline: " + timelineText.textContent,
+        "", "Estimate breakdown:",
+        ...estimate.breakdown.map(([label, value]) => label + ": " + formatINR(value)),
+        "Total: " + formatINR(estimate.total),
+        "", "Illustrative estimate only. Final pricing depends on confirmed scope."
       ].join("\n");
+    }
+    document.querySelector("#downloadEstimate").addEventListener("click", () => {
+      const url = URL.createObjectURL(new Blob([estimateMessage() + "\n"], { type: "text/plain;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url; link.download = "websites4u-estimate.txt";
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      document.querySelector("#estimateDownloadStatus").textContent = "Your estimate is ready to download.";
+    });
+    document.querySelector("#quoteButton").addEventListener("click", () => {
+      const message = estimateMessage();
       window.location.href = "mailto:" + CONTACT_EMAIL +
         "?subject=" + encodeURIComponent("Websites4U project estimate") +
         "&body=" + encodeURIComponent(message);
