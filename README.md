@@ -70,3 +70,10 @@ range bounds, rush timing, and invalid inputs. GitHub Actions runs both checks.
 The contact form retains the brief after opening the email application. Visitors
 can download a plain-text copy when email is unavailable, or use the displayed
 contact address. A status message distinguishes preparing a draft from sending it.
+
+### Keep an estimate
+
+**Download estimate (.txt)** saves the current preset, page count, design and
+content choices, features, budget range, timeline, and itemized price breakdown.
+The email action uses the same summary. Neither action sends information to a
+backend, and the downloaded file identifies the prices as illustrative.
