@@ -25,3 +25,15 @@ test('invalid scope cannot produce NaN or misleading negative prices', () => {
   assert.throws(() => estimate({ design: 0 }), RangeError);
   assert.throws(() => estimate({ features: [{ label: 'bad', price: -1 }] }), RangeError);
 });
+
+test('rounded prices reject underflow and an unsafe upper budget bound', () => {
+  for (const design of [Number.MIN_VALUE, 1e-8, 5.9e11]) {
+    assert.throws(() => estimate({ design }), RangeError);
+  }
+});
+
+test('an extreme feature subtotal cannot lose the adjustment in the breakdown', () => {
+  assert.throws(() => estimate({ features: [{ label: 'Large', price: 1e300 }], design: 1e-295 }), RangeError);
+  assert.throws(() => estimate({ features: [{ label: 'Large', price: Number.MAX_SAFE_INTEGER }] }), RangeError);
+  assert.throws(() => estimate({ features: [{ label: 'Fractional', price: 0.5 }] }), RangeError);
+});

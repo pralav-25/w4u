@@ -67,6 +67,12 @@ prices, and multipliers, and includes a combined adjustment line so the visible
 breakdown always adds up to the final estimate. Tests cover presets, modifiers,
 range bounds, rush timing, and invalid inputs. GitHub Actions runs both checks.
 
+All three displayed budget amounts use the same rounding and range validation.
+Unsupported multipliers cannot silently produce a zero quote or a budget bound
+beyond JavaScript's safe integer range.
+Feature prices and the subtotal use safe whole currency amounts, matching the
+INR catalogue, so the adjustment line cannot lose the quoted total to cancellation.
+
 The contact form retains the brief after opening the email application. Visitors
 can download a plain-text copy when email is unavailable, or use the displayed
 contact address. A status message distinguishes preparing a draft from sending it.
