@@ -2186,7 +2186,9 @@
     }, { threshold: .14 });
     document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
 
-    const typingTargets = [...document.querySelectorAll("p:not(.kicker)")].filter((item) => !item.closest("#introLoader"));
+    const typingTargets = [...document.querySelectorAll("p:not(.kicker)")].filter((item) =>
+      !item.children.length && !item.closest('#introLoader, [aria-live], [role="status"], [role="alert"]')
+    );
     typingTargets.forEach((item) => {
       const naturalHeight = item.getBoundingClientRect().height;
       item.dataset.fullText = item.textContent.trim();
